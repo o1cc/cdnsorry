@@ -57,7 +57,7 @@ function change_g() {
 }
 
 function change_r() {
-    auti = !auto;
+    auto = !auto;
     document.getElementsByClassName(" monkeyToolBtn btn_auto_report").item(0).textContent = auto ? "auto_report: true" : "auto_report: false";
 }
 
