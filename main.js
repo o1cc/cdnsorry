@@ -37,7 +37,7 @@ addToolBtn("btn_remv", "remove limit", remove_l, para);
 // !button end
 function work() {
     obsSleep(0)
-        .then(() => obsSleep(6))
+        .then(() => obsSleep(4))
         //监测存在元素然后点击
         .then(() => obsClick('#ButtonRandom'))
         .then(() => obsSleep(1.5))
@@ -47,7 +47,7 @@ function work() {
 function test() {
     obsTrue(hold)
         .then(() => obsFunc(work))
-        .then(() => obsSleep(1))
+        .then(() => obsSleep(3))
         .then(() => obsFunc(test))
 }
 
@@ -89,7 +89,6 @@ function save_info() {
             // try {
             // var key_name = document.querySelector("#randomSelInfo > div:nth-child(2) > span").textContent;
             var value_sex = document.querySelector("#randomSelInfo > div:nth-child(3) > span").innerHTML;
-            $x("/html/body/div[1]/div[1]/div[1]/div[3]/a[1]/span[3]")[0].innerHTML += " (" + value_sex + ")";
             if (value_sex == "女")
                 $x("/html/body/div[1]/div[1]/div[1]/div[3]/a[1]/span[3]")[0].style.color = "#ff0000";
             else
