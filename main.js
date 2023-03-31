@@ -1,30 +1,47 @@
 
-
+var info_map = new Map();
 var hold = false;
 var girl = false;
 var auto = false;
-para = {
+var _stop = false;
+var para = {
     yAlign: 'top',
     xAlign: 'right'
 
 }
+
+
+//! listen
+
+document.getElementById("ButtonRandom").addEventListener("click", () => { save_info() });
+
+//! 
+
+function $x(STR_XPATH) {
+    var xresult = document.evaluate(STR_XPATH, document, null, XPathResult.ANY_TYPE, null);
+    var xnodes = [];
+    var xres;
+    while (xres = xresult.iterateNext()) {
+        xnodes.push(xres);
+    }
+    return xnodes;
+}
+
 // !button
 // addToolBtn("btn_script", "click", test, para);
 addToolBtn("btn_check", "begin", change, para);
-addToolBtn("btn_sex", "only girl: false", change_g, para);
-addToolBtn("btn_auto_report", "auto_report: false", change_r, para);
+addToolBtn("btn_remv", "remove limit", remove_l, para);
+// addToolBtn("btn_sex", "only girl: false", change_g, para);
+// addToolBtn("btn_auto_report", "auto_report: false", change_r, para);
 
 // !button end
 function work() {
     obsSleep(0)
-        .then(() => obsSleep(2))
+        .then(() => obsSleep(6))
         //监测存在元素然后点击
         .then(() => obsClick('#ButtonRandom'))
-        .then(() => obsSleep(0.5))
-        .then(() => {
-            obsTrueFunc(checkSex())
-                .then(() => { change() }) //设为停止
-        })
+        .then(() => obsSleep(1.5))
+
 }
 
 function test() {
@@ -34,13 +51,7 @@ function test() {
         .then(() => obsFunc(test))
 }
 
-function checkSex() {
-    if (document.querySelector("#randomSelInfo > div:nth-child(3) > span").textContent == "女" && girl) { return true };
-    if (auto) {
 
-    }
-    return false;
-}
 
 function change() {
     hold = !hold;
@@ -53,7 +64,8 @@ function change() {
 
 function change_g() {
     girl = !girl;
-    document.getElementsByClassName(" monkeyToolBtn btn_sex").item(0).textContent = girl ? "only girl: false" : "only girl: true";
+    if (girl) _stop = 0;
+    document.getElementsByClassName(" monkeyToolBtn btn_sex").item(0).textContent = girl ? "only girl: true" : "only girl: false";
 }
 
 function change_r() {
@@ -64,6 +76,37 @@ function change_r() {
 function report() {
     obsSleep(0)
         .then(() => obsClick("#doBlack"))
+        .then(() => obsSleep(0.4))
+        // .then(() => obsClick("#layui-layer100003 > div.layui-layer-btn.layui-layer-btn- > a.layui-layer-btn0"), -0.1)
         .then(() => obsSleep(0.3))
-        .then(() => obsClick("#layui-layer100005 > div.layui-layer-btn.layui-layer-btn- > a.layui-layer-btn0"))
+}
+
+function save_info() {
+    //
+    obsSleep(1)
+        .then(() => {
+            console.log("in!")
+            // try {
+            // var key_name = document.querySelector("#randomSelInfo > div:nth-child(2) > span").textContent;
+            var value_sex = document.querySelector("#randomSelInfo > div:nth-child(3) > span").innerHTML;
+            $x("/html/body/div[1]/div[1]/div[1]/div[3]/a[1]/span[3]")[0].innerHTML += " (" + value_sex + ")";
+            if (value_sex == "女")
+                $x("/html/body/div[1]/div[1]/div[1]/div[3]/a[1]/span[3]")[0].style.color = "#ff0000";
+            else
+                $x("/html/body/div[1]/div[1]/div[1]/div[3]/a[1]/span[3]")[0].style.color = '#009000'
+            console.log("already saved !")
+            // }
+            // catch
+            // {
+
+            // }
+        })
+
+    // info_map.set(key_name, value_sex);
+
+}
+
+function remove_l() {
+
+    randomVipCode = '1';
 }
